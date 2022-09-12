@@ -49,7 +49,7 @@ best_cutoff
 y_hat <- ifelse(test_set$height > best_cutoff, "Male", "Female") %>% 
   factor(levels = levels(test_set$sex))
 y_hat <- factor(y_hat)
-print(mean(y_hat == test_set$sex))
+mean(y_hat == test_set$sex)
 
 
 
