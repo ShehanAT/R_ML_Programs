@@ -4,5 +4,6 @@ library(dslabs)
 data(heights)
 
 mnist <- read_mnist()
-x = data.frame(mnist)
-print(ncol(x))
+# x = data.frame(mnist)
+# print(ncol(x))
+print(ncol(mnist$train$images))
