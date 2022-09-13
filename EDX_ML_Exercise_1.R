@@ -62,3 +62,13 @@ prev <- mean(y == "Male")
 
 print(confusionMatrix(data = y_hat, reference = test_set$sex))
 
+# Maximize F1-Score 
+cutoff <- seq(61, 70)
+F_1 <- map_dbl(cutoff, function(x){
+  y_hat <- ifelse(train_set$height > x, "Male", "Female") %>%
+    factor(levels = levels(test_set$sex))
+  F_meas(data = y_hat, reference = factor(train_set$sex))
+})
+
+
+
