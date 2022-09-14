@@ -60,7 +60,8 @@ test_set %>%
 
 prev <- mean(y == "Male")
 
-print(confusionMatrix(data = y_hat, reference = test_set$sex))
+# print(confusionMatrix(data = y_hat, reference = test_set$sex))
+confusionMatrix(data = y_hat, reference = test_set$sex)
 
 # Maximize F1-Score 
 cutoff <- seq(61, 70)
@@ -69,6 +70,21 @@ F_1 <- map_dbl(cutoff, function(x){
     factor(levels = levels(test_set$sex))
   F_meas(data = y_hat, reference = factor(train_set$sex))
 })
+
+data.frame(cutoff, F_1) %>%
+  ggplot(aes(cutoff, F_1)) +
+  geom_point() +
+  geom_line()
+
+max(F_1)
+
+best_cutoff <- cutoff[which.max(F_1)]
+best_cutoff
+
+y_hat <- ifelse(test_set$height > best_cutoff, "Male", "Female") %>%
+  factor(levels = levels(test_set$sex))
+sensitivity(data = y_hat, reference = test_set$sex)
+sensitivity(data = y_hat, reference = test_set)
 
 
 
