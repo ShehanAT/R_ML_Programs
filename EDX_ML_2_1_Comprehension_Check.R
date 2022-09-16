@@ -33,4 +33,29 @@ prevalence_cal <- dat %>%
   group_by(sex) %>%
   summarise(Prevalence = mean(y == "Female"))
 
-print(prevalence_cal)
+# print(prevalence_cal)
+
+plot(iris, pch=21, bg=iris$Species)
+
+petalLR <- seq(min(train$Petal.Length), max(train$Petal.Length), by=0.1)
+petalWR <- seq(min(train$Petal.Width), max(train$Petal.Width), by=0.1)
+
+length_predictions <- sapply(petalLR, function(i){
+  y_hat <- ifelse(train$Petal.length > i, 'virginica', 'versicolor')
+  mean(y_hat == train$Species)
+})
+
+length_cutoff <- petalLR[which.max(length_predictions)]
+
+width_predictions <- sapply(petalWR, function(i){
+  y_hat <- ifelse(train$Petal.Width > i, 'virginica', 'versicolor')
+  mean(y_hat == train$Species)
+})
+
+width_cutoff <- petalWR[which.max(width_predictions)]
+
+y_hat <- ifelse(test$Petal.Length > length_cutoff | test$Petal.Width > width_cutoff, 'virginica', 'versicolor')
+print(mean(y_hat == test$Species))
+print(test$Species)
+print(y_hat)
+print(mean(accuracy))
