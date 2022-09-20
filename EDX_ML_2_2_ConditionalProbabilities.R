@@ -11,7 +11,7 @@ mean(disease[test == 1]) / mean(disease)
 # Computation of conditional probabilities for being male in the `heights` dataset.
 # P(x) = Pr(Male | height = x) for each x
 library(dslabs)
-library(magrittr)
+# library(magrittr)
 library(tidyverse)
 library(caret)
 library(dslabs)
