@@ -1,3 +1,7 @@
+library(tidyverse)
+library(caret)
+library(dslabs)
+
 heights %>%
   mutate(x = round(height)) %>%
   group_by(x) %>%
