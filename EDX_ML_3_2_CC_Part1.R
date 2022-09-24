@@ -24,13 +24,15 @@ dat <- map_df(str_split(pdf_text(fn), "\n"), function(s){
     str_trim() %>%
     str_split_fixed("\\s+", n=6) %>%
     .[,1:5] %>%
+    as_data_frame() %>%
     setNames(c("day", header)) %>%
     mutate(month = month,
            day = as.numeric(day)) %>%
     gather(year, deaths, -c(day, month)) %>%
     mutate(deaths = as.numeric(deaths))
 }) %>%
-  # mutate(month = recode(month, "JAN"=1, "FEB"=2, "MAR"=3, "APR"=4, "MAY"=5, "JUN"=6,
-  #                       "JUL"=7, "AUG"=8, "SEP"=9, "OCT"=10, "NOV"=11, "DEC"=12)) %>%
-  # mutate(date = make_date(year, month, day)) %>%
-  #   dplyr::filter(date <= "2018-05-01")
+  mutate(month = recode(month, "JAN"=1, "FEB"=2, "MAR"=3, "APR"=4, "MAY"=5, "JUN"=6,
+                        "JUL"=7, "AUG"=8, "SEP"=9, "OCT"=10, "NOV"=11, "DEC"=12)) %>%
+  mutate(date = make_date(year, month, day)) %>%
+    dplyr::filter(date <= "2018-05-01")
+
