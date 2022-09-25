@@ -38,8 +38,44 @@ dat <- map_df(str_split(pdf_text(fn), "\n"), function(s){
 
 span <- 60 / as.numeric(diff(date(range(dat$date))))
 fit <- dat %>% mutate(x = as.numeric(date)) %>% loess(data = ., span = span, degree = 1, deaths ~ x)
-dat %>% mutate(smooth=predict(fit, as.numeric(date))) %>%
-  ggplot() +
-  geom_point(aes(date, deaths))+
-  geom_line(aes(date, deaths), lwd= 3, col=2)  
+# dat %>% mutate(smooth=predict(fit, as.numeric(date))) %>%
+#   ggplot() +
+#   geom_point(aes(date, deaths))+
+#   geom_line(aes(date, deaths), lwd= 3, col=2)  
 
+# answer (a)
+# dat %>% 
+#   mutate(smooth = predict(fit), day = yday(date), year = as.character(year(date))) %>%
+#   ggplot(aes(day, smooth, col = year)) + 
+#   geom_line(lwd = 2)
+
+# answer (b)
+# dat %>%
+#   mutate(smooth = predict(fit, as.numeric(date)), day=mday(date), year=as.character(year(date))) %>%
+#   ggplot(aes(day, smooth, col=year)) +
+#   geom_line(lwd=2)
+
+# answer (c)
+# dat %>%
+#   mutate(smooth = predict(fit, as.numeric(date)), day = yday(date), year = as.character(year(date))) %>%
+#   ggplot(aes(day, smooth)) +
+#   geom_line(lwd = 2)
+
+# answer (d)
+dat %>%
+  mutate(smooth=predict(fit, as.numeric(date)), day = yday(date), year = as.character(year(date))) %>%
+  ggplot(aes(day, smooth, col = year)) + 
+  geom_line(lwd = 2)
+
+# Q3
+library(broom)
+library(dslabs)
+data("mnist_27")
+mnist_27$train %>% glm(y ~ x_2, family = "binomial", data = .) %>% tidy()
+
+qplot(x_2, y, data = mnist_27$train)
+
+mnist_27$train %>% 
+  mutate(y = ifelse(y == "7", 1, 0)) %>%
+  ggplot(aes(x_2, y)) + 
+  geom_smooth(method = "loess")
