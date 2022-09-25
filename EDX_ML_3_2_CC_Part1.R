@@ -36,3 +36,10 @@ dat <- map_df(str_split(pdf_text(fn), "\n"), function(s){
   mutate(date = make_date(year, month, day)) %>%
     dplyr::filter(date <= "2018-05-01")
 
+span <- 60 / as.numeric(diff(date(range(dat$date))))
+fit <- dat %>% mutate(x = as.numeric(date)) %>% loess(data = ., span = span, degree = 1, deaths ~ x)
+dat %>% mutate(smooth=predict(fit, as.numeric(date))) %>%
+  ggplot() +
+  geom_point(aes(date, deaths))+
+  geom_line(aes(date, deaths), lwd= 3, col=2)  
+
