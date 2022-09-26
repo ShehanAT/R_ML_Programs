@@ -41,3 +41,5 @@ most_accurate_feature_test <- function(x){
 test_predictions <- apply(test[,-5], 2, most_accurate_feature_test)
 print(sapply(test_predictions, max))
 
+
+
