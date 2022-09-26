@@ -141,17 +141,29 @@ bin_X <- (x > 255/2) * 1
 
 # In order to scale a column of a matrix, we first have to transpose a matrix, subtract the columns, and then transpose it back. The function sweep() works in a similar way to apply because it takes each entry of a vector and subtracts it from the corresponding row or column.
 t(t(x) - colMeans(x))
+X_mean_0 <- sweep(x, 2, colMeans(x))
 
 # Matrix multiplication is done with the following operation: %*%
 t(x) %*% x
 # or use the function crossprod(x) to give us the cross-product:
 crossprod(x)
 
+# Matrix division is done with the following code:
+x_mean_0 <- sweep(x, 2, colMeans(x))
+x_standardized <- sweep(x_mean_0, 2, colSds(x), FUN="/")
+
 # To compute the inverse of a function: we can use the function solve()
 solve(crossprod(x))
 
 # The QR Decomposition is readily available by using the function qr() like so:
 qr(x)
+
+# To find the number of rows in a matrix:
+nrow(x)
+
+# To find the number of columns in a matrix:
+ncol(x)
+
 
 
 
