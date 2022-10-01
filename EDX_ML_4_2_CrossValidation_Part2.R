@@ -1,0 +1,16 @@
+library(dslabs)
+library(caret)
+data(mnist_27)
+# set.seed(1995) # if R 3.5 or earlier
+
+set.seed(1995, sample.kind="Rounding") # if R 3.6 or later 
+indexes <- createResample(mnist_27$train$y, 10)
+sum(indexes[[1]] == 3)
+sum(indexes[[1]] == 4)
+sum(indexes[[1]] == 7)
+
+# Q2
+x = sapply(indexes, function(k){
+  sum(k == 3)
+})
+sum(x)
