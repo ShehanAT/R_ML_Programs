@@ -14,3 +14,16 @@ x = sapply(indexes, function(k){
   sum(k == 3)
 })
 sum(x)
+
+# Q3
+set.seed(1)
+B <- 1000
+
+q_75 <- replicate(B, {
+  y <- rnorm(100, 0, 1)
+  quantile(y, 0.75)
+})
+
+mean(q_75)
+# sd() is used to find Standard Error
+sd(q_75)
