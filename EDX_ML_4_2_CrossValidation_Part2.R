@@ -27,3 +27,21 @@ q_75 <- replicate(B, {
 mean(q_75)
 # sd() is used to find Standard Error
 sd(q_75)
+
+# Q4
+# set.seed(1) # if R 3.5 or earlier
+set.seed(1, sample.kind="Rounding") # if R 3.6 or later 
+
+# createResample() creates n number of resamples from the dataset passed to it. 
+indexes <- createResample(y, 10000)
+
+q_75_resample <- sapply(indexes, function(ind){
+  y_star <- y[ind]
+  quantile(y_star, 0.75)
+})
+
+mean(q_75_resample)
+
+sd(q_75_resample)
+
+
