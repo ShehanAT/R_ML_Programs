@@ -1,6 +1,7 @@
 # Loading package
 library(caTools)
 library(ROCR) 
+library(sjPlot)
 
 # Splitting dataset
 split <- sample.split(mtcars, SplitRatio = 0.8)
@@ -9,11 +10,22 @@ split
 train_reg <- subset(mtcars, split == "TRUE")
 test_reg <- subset(mtcars, split == "FALSE")
 
+x_weight <- seq(0, 6, 0.1)
+
+
+
 # Training model
 logistic_model <- glm(vs ~ wt + disp, 
                       data = train_reg, 
                       family = "binomial")
 logistic_model
+
+y_weight <- predict(model, list(wt = x_weight), type="response")
+
+plot(mtcars$wt, mtcars$vs, pch=16, xlab="WEIGHT (g)", ylab="VS")
+# plot_model(logistic_model, vline.color = "red")   
+# plot_model(logistic_model, show.values = TRUE, value.offset = .3) 
+lines(x_weight, y_weight)
 
 # Summary
 summary(logistic_model)
