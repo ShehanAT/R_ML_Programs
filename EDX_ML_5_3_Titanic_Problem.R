@@ -45,10 +45,40 @@ set.seed(3, sample.kind="Rounding")
 guess <- sample(c(0, 1), nrow(test_set), replace=TRUE)
 mean(guess == test_set$Survived)
 
-# Q3 
+# Q3a 
 f_train <- train_set %>% filter(Sex == "female")
 f_survived <- mean(f_train$Survived == 1)
 f_survived
 m_train <- train_set %>% filter(Sex == "male")
 m_survived <- mean(m_train$Survived == 1)
 m_survived
+
+# Q3b 
+f_survived <- ifelse(test_set$Sex == "female", 1, 0)
+mean(f_survived == test_set$Survived)
+
+# Q4a
+
+class_results <- train_set %>% group_by(Pclass) %>%
+  summarize(p1 = mean(Survived == 1))
+
+# Q4b
+
+class_results <- ifelse(test_set$Pclass == 1, 1, 0)
+mean(class_results == test_set$Survived)
+
+second_class_results <- ifelse(test_set$Pclass == 2, 1, 0)
+mean(second_class_results == test_set$Survived)
+
+third_class_results <- ifelse(test_set$Pclass == 3, 1, 0)
+mean(third_class_results == test_set$Survived)
+
+# Q4c 
+
+passengers <- train_set %>% group_by(Pclass, Sex) %>%
+  summarize(p1 = mean(Survived == 1))
+passengers
+
+# Q4d 
+f_1_survived <- ifelse(test_set$Pclass == 2 & test_set$Sex == "female", 1, 0)
+mean(f_1_survived == test_set$Survived)
