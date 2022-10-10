@@ -20,11 +20,35 @@ titanic_clean <- titanic_train %>%
 # Splitting dataset
 set.seed(42)
 
-test_index <- createDataPartition(titanic_clean$Survived, times = 1, p = 0.8, list = FALSE)
+test_index <- createDataPartition(titanic_clean$Survived, times = 1, p = 0.2, list = FALSE)
 
 train_set <- titanic_clean %>% slice(-test_index)
 test_set <- titanic_clean %>% slice(test_index)
 
-length(train_set$Survived)
+nrow(train_set)
+nrow(test_set)
 
+# To find the proportion of passengers in the train set that survived:
+mean(train_set$Survived == 1)
 
+# Q3 
+
+set.seed(3, sample.kind = "Rounding")
+guess_ <- sample(c(0, 1), nrow(test_set), replace=TRUE)
+test_set %>%
+  filter(Survived == guess_) %>%
+  summarize(n() / nrow(test_set))
+
+# OR
+
+set.seed(3, sample.kind="Rounding")
+guess <- sample(c(0, 1), nrow(test_set), replace=TRUE)
+mean(guess == test_set$Survived)
+
+# Q3 
+f_train <- train_set %>% filter(Sex == "female")
+f_survived <- mean(f_train$Survived == 1)
+f_survived
+m_train <- train_set %>% filter(Sex == "male")
+m_survived <- mean(m_train$Survived == 1)
+m_survived
