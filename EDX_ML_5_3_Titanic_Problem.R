@@ -54,8 +54,8 @@ m_survived <- mean(m_train$Survived == 1)
 m_survived
 
 # Q3b 
-f_survived <- ifelse(test_set$Sex == "female", 1, 0)
-mean(f_survived == test_set$Survived)
+sex_model <- ifelse(test_set$Sex == "female", 1, 0)
+mean(sex_model == test_set$Survived)
 
 # Q4a
 
@@ -64,8 +64,8 @@ class_results <- train_set %>% group_by(Pclass) %>%
 
 # Q4b
 
-class_results <- ifelse(test_set$Pclass == 1, 1, 0)
-mean(class_results == test_set$Survived)
+class_model <- ifelse(test_set$Pclass == 1, 1, 0)
+mean(class_model == test_set$Survived)
 
 second_class_results <- ifelse(test_set$Pclass == 2, 1, 0)
 mean(second_class_results == test_set$Survived)
@@ -76,9 +76,23 @@ mean(third_class_results == test_set$Survived)
 # Q4c 
 
 passengers <- train_set %>% group_by(Pclass, Sex) %>%
-  summarize(p1 = mean(Survived == 1))
+  summarize(Survived = mean(Survived == 1)) %>%
+  filter(Survived > 0.5)
 passengers
 
 # Q4d 
-f_1_survived <- ifelse(test_set$Pclass == 2 & test_set$Sex == "female", 1, 0)
-mean(f_1_survived == test_set$Survived)
+sex_class_model <- ifelse((test_set$Pclass == 1 & test_set$Sex == "female") | (test_set$Pclass == 2 & test_set$Sex == "female"), 1, 0)
+mean(sex_class_model == test_set$Survived)
+
+# Q5a 
+confusionMatrix(data = factor(sex_model), reference = factor(test_set$Survived))
+
+confusionMatrix(data = factor(class_model), reference = factor(test_set$Survived))
+
+confusionMatrix(data = factor(sex_class_model), reference = factor(test_set$Survived))
+
+# Q6
+
+F_meas(data = factor(sex_model), reference = factor(test_set$Survived))
+F_meas(data = factor(class_model), reference = factor(test_set$Survived))
+F_meas(data = factor(sex_class_model), reference = factor(test_set$Survived))
