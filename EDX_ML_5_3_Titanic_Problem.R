@@ -96,3 +96,19 @@ confusionMatrix(data = factor(sex_class_model), reference = factor(test_set$Surv
 F_meas(data = factor(sex_model), reference = factor(test_set$Survived))
 F_meas(data = factor(class_model), reference = factor(test_set$Survived))
 F_meas(data = factor(sex_class_model), reference = factor(test_set$Survived))
+
+# Q7
+set.seed(1)
+
+# ind <- which(tissue_gene_expression$y %in% c("cerebellum", "hippocampus"))
+# y <- droplevels(tissue_gene_expression$y[ind])
+# x <- tissue_gene_expression$x[ind, ]
+# x <- x[, sample(ncol(x), 10)]
+
+fit_lda <- train(Survived ~ Fare, data=train_set, method="lda")
+prediction <- predict(fit_lda, test_set)
+mean(prediction == test_set$Survived)
+
+fit_qda <- train(Survived ~ Fare, data=train_set, method="qda")
+prediction <- predict(fit_qda, test_set)
+mean(prediction == test_set$Survived)
