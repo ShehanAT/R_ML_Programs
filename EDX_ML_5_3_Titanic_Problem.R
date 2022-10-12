@@ -112,3 +112,31 @@ mean(prediction == test_set$Survived)
 fit_qda <- train(Survived ~ Fare, data=train_set, method="qda")
 prediction <- predict(fit_qda, test_set)
 mean(prediction == test_set$Survived)
+
+# Q8
+
+fit_glm <- train(Survived ~ Age, data = train_set, method="glm")
+prediction <- predict(fit_glm, test_set)
+mean(prediction == test_set$Survived)
+
+fit_glm <- train(Survived ~ Age + Sex + Pclass + Fare, data = train_set, method="glm")
+prediction <- predict(fit_glm, test_set)
+mean(prediction == test_set$Survived)
+
+fit_glm <- train(Survived ~ ., data = train_set, method="glm")
+prediction <- predict(fit_glm, test_set)
+mean(prediction == test_set$Survived)
+
+# Q9
+
+k = seq(3, 51, 2)
+set.seed(6)
+
+fit_knn <- train(Survived ~ ., data = train_set, method = "knn", tuneGrid = data.frame(k))
+fit_knn
+
+ggplot(fit_knn)
+
+survived_hat <- predict(fit_knn, test_set) %>% factor(levels = levels(test_set$Survived))
+cn_fit_knn <- confusionMatrix(data = survived_hat, reference = test_set$Survived)
+cn_fit_knn$overall["Accuracy"]
