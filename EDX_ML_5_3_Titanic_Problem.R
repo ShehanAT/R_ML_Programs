@@ -140,3 +140,25 @@ ggplot(fit_knn)
 survived_hat <- predict(fit_knn, test_set) %>% factor(levels = levels(test_set$Survived))
 cn_fit_knn <- confusionMatrix(data = survived_hat, reference = test_set$Survived)
 cn_fit_knn$overall["Accuracy"]
+
+# Q10
+k = seq(3, 51, 2)
+
+set.seed(8)
+
+fit_knn10 <- train(Survived ~ ., 
+      data = train_set, 
+      method = "knn", 
+      tuneGrid = data.frame(k),
+      trControl = trainControl(method = "cv", number = 10, p = 0.9))
+# p = 0.9 = 1 - 0.1
+
+fit_knn10
+
+survived_hat <- predict(fit_knn10, test_set)
+
+cn_matrix <- confusionMatrix(data = survived_hat, reference = test_set$Survived)
+cn_matrix$overall["Accuracy"]
+
+# Optimal k value: 5
+# Accuracy on the test set using the cross-validated kNN model: 0.648
