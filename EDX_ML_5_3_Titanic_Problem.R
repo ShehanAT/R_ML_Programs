@@ -162,3 +162,23 @@ cn_matrix$overall["Accuracy"]
 
 # Optimal k value: 5
 # Accuracy on the test set using the cross-validated kNN model: 0.648
+
+# Q11
+set.seed(10, sample.kind = "Rounding")
+
+fit_rpart <- train(Survived ~ .,
+                   data = train_set,
+                   method = "rpart",
+                   tuneGrid = data.frame(cp = seq(0, 0.05, 0.002)))
+
+plot(fit_rpart)
+
+fit_rpart
+
+survived_hat <- predict(fit_rpart, test_set)
+
+rp_matrix <- confusionMatrix(data = survived_hat, reference = test_set$Survived)
+rp_matrix$overall["Accuracy"]
+
+# Optimal value of cp: 0.016
+# Accuracy on the test set using the cross-validated kNN model: 0.838
