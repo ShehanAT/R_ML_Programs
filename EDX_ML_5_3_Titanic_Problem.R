@@ -184,3 +184,23 @@ text(fit_rpart$finalModel, cex=0.75)
 # The left hand side of decision tree branches are the 'Yes' option. Right hand side branches are the 'No' option.
 # Optimal value of cp: 0.016
 # Accuracy on the test set using the cross-validated kNN model: 0.838
+
+
+# Q12
+set.seed(14, sample.kind="Rounding")
+
+fit12_rf <- train(Survived ~ .,
+                       data = train_set,
+                       method = "rf",
+                       tuneGrid = data.frame(mtry = seq(1:7)),
+                       ntree = 100)
+
+fit12_rf$bestTune
+
+survived_hat <- predict(fit12_rf, test_set)
+
+rp_matrix <- confusionMatrix(data = survived_hat, reference = test_set$Survived)
+rp_matrix$overall["Accuracy"]
+
+varImp(fit12_rf)
+varImp()
