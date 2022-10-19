@@ -178,7 +178,9 @@ fit_rpart
 survived_hat <- predict(fit_rpart, test_set)
 
 rp_matrix <- confusionMatrix(data = survived_hat, reference = test_set$Survived)
-rp_matrix$overall["Accuracy"]
-
+fit_rpart$finalModel
+plot(fit_rpart$finalModel, margin=0.1)
+text(fit_rpart$finalModel, cex=0.75)
+# The left hand side of decision tree branches are the 'Yes' option. Right hand side branches are the 'No' option.
 # Optimal value of cp: 0.016
 # Accuracy on the test set using the cross-validated kNN model: 0.838
