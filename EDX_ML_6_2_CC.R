@@ -30,3 +30,38 @@ movielens %>% filter(year >= 1993) %>%
   ggplot(aes(rate, rating)) + 
   geom_point() + 
   geom_smooth()
+
+# Q4 
+
+# When doing predictive analysis in which you need to fill in missing ratings with some values:
+# Fill in the missing values with a lower value than the average rating across all movies 
+# Because of a lack of ratings is associated with lower ratings, it would be most appropriate to 
+# Fill in the missing value with a lower value than the average. You should try out different values
+# To fill in the missing value and evaluate prediction in a test set. 
+
+# Q5
+
+movielens <- mutate(movielens, date = as.date(timestamp))
+
+movielens <- mutate(movielens, date = as_datetime(timestamp)) # This is the correct answer for creating a new column `date` with the date
+
+movielens <- mutate(movielens, date = as.data(timestamp))
+
+movielens <- mutate(movielens, date = timestamp)
+
+movielens
+
+# Q6 
+
+movielens %>% 
+  mutate(date = round_date(date, unit = "week")) %>%
+  group_by(date) %>%
+  summarize(rating=mean(rating)) %>%
+  ggplot(aes(date, rating)) + 
+  geom_point() + 
+  geom_smooth()
+
+# Q7
+
+# If we define d_{u,i} as the day for user's {u} rating of movie {i}, the following model would be the most appropriate:
+# Y_{u, i} = µ + b_{i} + b_{u} + f(d_{u, i}) + ε_{u, i}
