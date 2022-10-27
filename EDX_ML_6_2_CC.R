@@ -65,3 +65,16 @@ movielens %>%
 
 # If we define d_{u,i} as the day for user's {u} rating of movie {i}, the following model would be the most appropriate:
 # Y_{u, i} = µ + b_{i} + b_{u} + f(d_{u, i}) + ε_{u, i}
+
+# Q8
+
+movielens %>% group_by(genres) %>%
+  summarize(n = n(), avg = mean(rating), se = sd(rating)/sqrt(n())) %>%
+  filter(n >= 1000) %>%
+  mutate(genres = reorder(genres, avg)) %>%
+  ggplot(aes(x = genres, y = avg, ymin = avg - 2*se, ymax = avg + 2*se)) + 
+  geom_point() + 
+  geom_errorbar() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+  
