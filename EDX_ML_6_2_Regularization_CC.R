@@ -51,4 +51,22 @@ schools %>% ggplot(aes(size, score)) +
 # Note also that several of the top 10 schools based on true quality are also in the top 10 schools based on the exam score:
 # schools %>% top_n(10, score) %>% arrange(desc(score))
 
+# Q5
+
+overall <- mean(sapply(scores, mean))
+alpha <- 25
+score_reg <- sapply(scores, function(x){ overall + sum(x - overall) / (length(x) + alpha) })
+schools %>% mutate(score_reg = score_reg) %>%
+  top_n(10, score_reg) %>% arrange(desc(score_reg))
+
+# Q6
+
+alphas <- seq(10, 250)
+rmse <- sapply(alphas, function(alpha) {
+  score_reg <- sapply(scores, function(x){ overall + sum(x - overall) / (length(x) + alpha) })
+  mean((score_reg - schools$quality)^2)
+})
+plot(alphas, rmse)
+alphas[which.min(rmse)]
+
 
