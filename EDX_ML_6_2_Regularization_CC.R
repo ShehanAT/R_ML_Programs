@@ -69,4 +69,30 @@ rmse <- sapply(alphas, function(alpha) {
 plot(alphas, rmse)
 alphas[which.min(rmse)]
 
+# Q7
+
+alpha <- alphas[which.min(rmse)]
+score_reg <- sapply(scores, function(x) {
+  overall+sum(x - overall) / (length(x) + alpha)
+})
+schools %>% mutate(score_reg = score_reg) %>%
+  top_n(10, score_reg) %>% arrange(desc(score_reg))
+
+# Q8
+
+alphas <- seq(10, 250)
+rmse <- sapply(alphas, function(alpha) {
+  score_reg <- sapply(scores, function(x){ sum(x) / (length(x) + alpha) })
+  mean((score_reg - schools$quality)^2)
+})
+plot(alphas, rmse)
+alphas[which.min(rmse)]
+
+
+
+
+  
+
+
+
 
