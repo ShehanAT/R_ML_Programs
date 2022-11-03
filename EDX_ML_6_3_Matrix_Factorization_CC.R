@@ -118,4 +118,62 @@ my_image(s$v)
 # which implies that the first column of YV is the sum of the rows of Y multiplied by some constant,
 # and is thus proportional to an average 
 
+# Q10 
+
+# The argument ylim sets the y-axis limit for the specified plot
+plot(s$u[,1], ylim = c(-0.25, 0.25))
+
+plot(t(s$v[,1]), ylim = c(-0.25, 0.25))
+
+my_image((s$u[, 1, drop=FALSE]*d[1]) %*% (t(s$v[, 1, drop=FALSE]))) 
+my_image(y)
+# Q11
+
+resid <- y - with(s, (u[, 1, drop=FALSE]*d[1]) %*% t(v[, 1, drop=FALSE]))
+# The function cor(x) is used to produce correlations for the matrix x
+my_image(cor(resid), zlim = c(-1, 1))
+axis(side = 2, 1:ncol(y), rev(colnames(y)), las = 2)
+
+plot(s$u[,2])
+plot(t(s$v[,2]))
+# The drop=FALSE argument is used return a matrix instead of a vector
+my_image((s$u[, 2, drop=FALSE]*s$d[2]) %*% t(s$v[, 2, drop=FALSE]))
+# The function with() evaluates an R expression in an environment constructed from data, 
+# possibility modifying the original data(or a copy of the original data)
+with(s, my_image((u[, 2, drop=FALSE]*d[2]) %*% t(v[, 2, drop=FALSE])))
+
+# The above with() expression is equivalent to the following R expression:
+# my_image((s$u[, 2, drop=FALSE]*s$d[2]) %*% t(s$v[, 2, drop=FALSE]))
+
+
+# Q12 
+
+plot(s$u[,3], ylim = c(-0.5, 0.5))
+plot(s$u[,3], ylim = c(-0.25, 0.25))
+
+plot(t(s$v[,3]), ylim = c(-0.5, 0.5))
+plot(t(s$v[,3]), ylim = c(-0.25, 0.25))
+
+my_image((s$u[, 3, drop=FALSE]*s$d[3]) %*% t(s$v[, 3, drop=FALSE]))
+my_image(resid)
+
+# Q13
+
+resid <- y - with(s, sweep(u[, 1:3], 2, d[1:3], FUN="*") %*% t(v[, 1:3]))
+my_image(cor(resid), zlim = c(-1, 1))
+axis(side = 2, 1:ncol(y), rev(colnames(y)), las = 2)
+
+range(y)
+
+my_image(y)
+my_image(y, zlim = range(y))
+
+y_hat <- with(s, sweep(u[, 1:3], 2, d[1:3], FUN="*") %*% t(v[, 1:3]))
+my_image(y_hat, zlim = range(y)) # <- Creating an image of the y_hat variable yields the correct answer
+my_image(y - y_hat, zlim = range(y))
+
+my_image(((s$u[, 1, drop=FALSE]*s$d[1]) %*% t(s$v[, 1, drop=FALSE])) +
+           (s$u[, 2, drop=FALSE]*s$d[2]) %*% t(s$v[, 2, drop=FALSE]) + 
+           (s$u[, 3, drop=FALSE]*s$d[3]) %*% t(s$v[, 3, drop=FALSE]))
+
 
