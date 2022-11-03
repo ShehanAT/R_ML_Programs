@@ -89,3 +89,33 @@ var_explained
 var_explained <- sum(s$d[1:3]^2) / sum(s$d^2)
 var_explained
 
+# Q7
+
+# The function t(x) returns the transpose of matrix x 
+
+identical(t(s$u %*% diag(s$d)), sweep(s$u, 2, s$d, FUN = "*"))
+
+identical(s$u %*% diag(s$d), sweep(s$u, 2, s$d, FUN = "*"))
+
+identical(S$u %*% t(diag(s$d)), sweep(s$u, 2, s$d, FUN = "*"))
+
+identical(s$u %*% diag(s$d), sweep(s$u, 2, s, FUN = "*"))
+
+# Q8
+# The notation y[,1] targets the first column of the matrix y in its entirety
+
+y_svd 
+y_svd[,1]
+y_svd[1]
+plot(y_svd[,1], rowMeans(y))
+
+# Q9 
+
+plot(s$v)
+my_image(s$v)
+
+# Based on the image plot of s$v we can state that the first column is very close to being a constant,
+# which implies that the first column of YV is the sum of the rows of Y multiplied by some constant,
+# and is thus proportional to an average 
+
+
