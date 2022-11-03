@@ -1,3 +1,10 @@
+library(dslabs)
+library(tidyverse)
+library(caret)
+
+
+# Q1
+
 # In the code below we are constructing a dataset that represents grade scores for 100 students in 24 different subjects
 # A 0 represents an average grade(C), a 25 is a high grade(A+), and a -25 represents a low grade(F)
 
@@ -60,3 +67,25 @@ ss_yv <- sum(colMean_yv)
 ss_y
 
 ss_yv
+
+# Q4
+
+plot(ss_y)
+
+plot(ss_yv)
+
+# Based on the plots that the above code produces we can see that the variability of the columns of 
+# of YV is decreasing. Furthermore, we see that, relative to the first three, the variability of the 
+# columns beyond the third is almost 0.
+
+# Q6
+# The operator %*% denotes matrix multiplication 
+# The function cumsum() returns a vector whose elements are the cumulative sums, products, minima or maxima of the elements of the argument
+
+YV_t <- y %*% s$v
+var_explained <- cumsum(sd(YV_t[,1])^2/sum(var(YV_t))) + cumsum(sd(YV_t[,2])^2/sum(var(YV_t))) + cumsum(sd(YV_t[,3])^2/sum(var(YV_t)))
+var_explained
+
+var_explained <- sum(s$d[1:3]^2) / sum(s$d^2)
+var_explained
+
