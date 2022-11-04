@@ -177,3 +177,5 @@ my_image(((s$u[, 1, drop=FALSE]*s$d[1]) %*% t(s$v[, 1, drop=FALSE])) +
            (s$u[, 3, drop=FALSE]*s$d[3]) %*% t(s$v[, 3, drop=FALSE]))
 
 
+
+
