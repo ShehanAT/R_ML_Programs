@@ -44,3 +44,47 @@ df_res <- data.frame(pc_1 = pc_result$x[,1], avg = avgs,
 cor(avgs, pc_result$x[,1])
 # The ordering of the arguments don't influence the output
 cor(pc_result$x[,1], avgs)
+
+
+
+# Q3
+
+
+# BLANK
+x <- with(tissue_gene_expression, sweep(x, 1, mean(x)))
+
+# The function sweep() is used to apply various operations to a matrix's rows or columns
+x <- sweep(x, 1, rowMeans(tissue_gene_expression$x))
+
+x <- tissue_gene_expression$x - mean(tissue_gene_expression$x)
+
+x <- with(tissue_gene_expression, sweep(x, 1, rowMeans(x))) # This is the correct answer for Q3
+
+
+
+pc <- prcomp(x)
+data.frame(pc_1 = pc$x[,1], pc_2 = pc$x[,2],
+           tissue = tissue_gene_expression$y) %>%
+  ggplot(aes(pc_1, pc_2, color = tissue)) +
+  geom_point()
+
+# Q4 
+
+class(pc$x[,1])
+class(tissue_gene_expression$y)
+
+for (i in 1:10){
+  boxplot(pc$x[,i] ~ tissue_gene_expression$y, xlab="Tissue Type", ylab="Median Difference", main = paste("PC", i))
+}
+
+boxplot(pc$x[,7] ~ tissue_gene_expression$y, xlab="Tissue Type", ylab="Median Difference", main = "PC 7")
+
+# Q5
+
+# The summary.imp function returns data that contained substituted data in order to replace any missing
+# data
+summary(pc)
+summary(pc)$imp
+df_pc <- data.frame(summary(pc)$imp) 
+
+
