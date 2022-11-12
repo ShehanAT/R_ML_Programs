@@ -19,3 +19,6 @@ mean(brca$y == "M")
 # In order to calculate the column number with the highest mean and return its index in the dataset, use the following code:
 colMean <- apply(brca$x, 2, mean)
 which.max(colMean)
+
+colSd <- apply(brca$x, 2, sd)
+which.min(colSd)
