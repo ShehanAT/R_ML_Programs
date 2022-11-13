@@ -19,7 +19,7 @@ d
 # Q2
 
 
-# The function hcust() conducts a hierarchical cluster analysis on a set of dissimilarities and methods for analyzing it
+# The function hclust(x) conducts a hierarchical cluster analysis on a set of dissimilarities, x, and methods for analyzing it
 h <- hclust(d)
 # The cex argument in the plot() function indicates the amount by which plotting text and symbols should be scaled relative to the default. Values over 1 indicate larger, values under 1 indicate smaller 
 plot(h, cex=0.75)
