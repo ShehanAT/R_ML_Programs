@@ -13,7 +13,7 @@ nrow(brca$x)
 # In order to count the number of predictors in a matrix use the ncol() function like so:
 ncol(brca$x)
 
-# In order to calculate the proportion of the sample that are of a specifc condition 'M', use the following code:
+# In order to calculate the proportion of the sample that are of a specific condition 'M', use the following code:
 mean(brca$y == "M")
 
 # In order to calculate the column number with the highest mean and return its index in the dataset, use the following code:
@@ -94,3 +94,20 @@ scaled_matrix_cutree <- cutree(scaled_matrix_hclust, k = 5)
 # The function names(x) prints the names attribute of the dataset x
 # The names attribute of a dataset is typically a vector of character strings of the same length as the rows of the dataset
 split(names(scaled_matrix_cutree), scaled_matrix_cutree)
+
+
+# Q6
+
+pc <- prcomp(brca_x1)
+pc
+
+# What proportion of variance is explained by the first principal component?
+summary(pc)
+
+# How many principal components are required to explain at least 90% of the variance?
+# Note when the Cumulative Proportion value exceeds 0.9 and use that PC number as the answer
+plot(summary(pc)$importance[3,])
+
+# Answer provided by course:
+pca <- prcomp(brca_x1)
+summary(pca)
