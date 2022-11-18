@@ -111,3 +111,24 @@ plot(summary(pc)$importance[3,])
 # Answer provided by course:
 pca <- prcomp(brca_x1)
 summary(pca)
+
+brca$y
+
+# Q7
+data.frame(pc_1 = pca$x[,1], pc_2 = pca$x[,2], tumor = brca$y) %>%
+  ggplot(aes(pc_1, pc_2, color = tumor)) + 
+  geom_point()
+
+# Course provided answer:
+data.frame(pca$x[,1:2], type=brca$y) %>%
+  ggplot(aes(PC1, PC2, color = type)) +
+  geom_point()
+
+# Q8
+
+for (i in 1:10){
+  boxplot(pca$x[,i] ~ brca$y, xlab = "Tumor Type", ylab = "Median Difference", main = paste("PC", i))
+}
+
+
+

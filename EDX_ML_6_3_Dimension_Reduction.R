@@ -96,7 +96,7 @@ imp_df$pc <- factor(imp_df$pc,
                     levels = imp_df$pc[order(imp_df$pc_index)])
 imp_df <- imp_df %>% mutate(cum_sum = cumsum(imp))
 
-# Use a ggplot() with the PCs on the x and the cumalative sum on the y 
+# Use a ggplot() with the PCs on the x and the cumulative sum on the y 
 imp_df %>% filter(pc_index < 20) %>% arrange(pc_index, cum_sum) %>%
   ggplot(aes(x = pc, y = cum_sum, fill = pc)) +
   geom_col() + scale_y_continuous(breaks = seq(0,1,0.1)) + theme_grey()
