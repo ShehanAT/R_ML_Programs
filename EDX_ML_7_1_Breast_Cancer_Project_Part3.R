@@ -20,7 +20,8 @@ mean(train_y == "B")
 
 mean(test_y == "B")
 
-# Q10
+
+# Q10a
 
 predict_kmeans <- function(x, k) {
   centers <- k$centers # extract cluster centers 
@@ -38,6 +39,38 @@ set.seed(3) # This sets a seed for R's random number generator
 k <- kmeans(train_x, centers = 2 )
 
 # The function predict_kmeans(x, k) take a matrix of observations(x) and a kMeans object(k) and assigns each row of x to a cluster from k
-predict_result <- predict_kmeans(train_x, k)
+predict_result <- predict_kmeans(test_x, k)
 predict_result
 
+# Option 1: Convert "B" & "M" to 1 & 2 then use mean() to find the overall accuracy between the prediction and the test data
+
+kmeans_preds_1 <- sapply(test_y, function(i) { 
+    ifelse(i == "B", as.integer(1), as.integer(2))
+})
+
+kmeans_preds_1
+
+mean(kmeans_preds_1 == predict_result)
+
+# OR 
+# Option 2: Convert 1 & 1 to "B" & "M" then use mean() to find the overall accuracy between the prediction and the test data
+
+kmeans_preds_2 <- sapply(predict_kmeans(test_x, k), function(i){
+  ifelse(i == 1, "B", "M")
+})
+
+kmeans_preds_2
+test_y
+
+mean(kmeans_preds_2 == test_y)
+
+# Q10b
+
+# The function sensitvity() calculates the sensitivity, specificity or predictive values of a measurement system compared to a reference result
+
+
+# In order to find the proportion of benign tumors that are correctly identified in the kmeans_preds_2 with reference to test_y use the following code:
+sensitivity(data = as.factor(kmeans_preds_2), reference = test_y, positive = "B")
+
+# In order to find the proportion of malignant tumors that are correctly identified in the kmeans_preds_2 with reference to test_y use the follow code:
+sensitivity(data = as.factor(kmeans_preds_2), reference = test_y, positive = "M")
