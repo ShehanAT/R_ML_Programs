@@ -4,7 +4,7 @@ library(tidyverse)
 library(caret)
 library(dslabs)
 library(dplyr)
-
+library(ISLR)
 data(brca)
 
 set.seed(1, sample.kind="Rounding")
@@ -74,3 +74,43 @@ sensitivity(data = as.factor(kmeans_preds_2), reference = test_y, positive = "B"
 
 # In order to find the proportion of malignant tumors that are correctly identified in the kmeans_preds_2 with reference to test_y use the follow code:
 sensitivity(data = as.factor(kmeans_preds_2), reference = test_y, positive = "M")
+
+# Q11
+
+set.seed(1, sample.kind = "Rounding")
+
+# In order to fit a logistic regression model on the training set with caret::train() using all predictors, use the following code:
+logistic_model <- train(
+  train_x, train_y, method = "glm", family = "binomial"
+)
+
+logistic_model$results$Accuracy
+
+# To make predictions on the test set using the newly trained logistic regression model, use the following code:
+yhat <- predict(logistic_model, test_x)
+
+# To calculate the accuracy of the logistic regression model on the test set, use the following code:
+mean(yhat == test_y)
+
+# Q12
+
+set.seed(1, sample.kind = "Rounding")
+
+# In order to train an LDA and QDA model on the training set, use the following code:
+lda_model <- train(
+  train_x, train_y, method = "lda"
+)
+
+qda_model <- train(
+  train_x, train_y, method = "qda"
+)
+
+# In order to make predictions on the test set using each of the above models:
+lda_yhat <- predict(lda_model, test_x)
+
+qda_yhat <- predict(qda_model, test_x)
+
+# To calculate the accuracy of the LDA and QDA models on the test set:
+mean(lda_yhat == test_y)
+
+mean(qda_yhat == test_y)
