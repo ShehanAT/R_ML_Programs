@@ -118,21 +118,24 @@ mean(qda_yhat == test_y)
 
 
 # Q13
-
+# Question text: Set the seed to 5, then fit a loess model on the training set with the caret package. you will need to install the `gam` 
+# package if you have not yet done so. Use the default tuning grid. This may take several minutes; ignore warnings. 
+# Generate predictions on the test set.
+# What is the accuracy of the loess model on the test set?
 set.seed(5)
 
 train_y
 
-grid <- expand.grid(span = seq(0.15, 0.65, len = 10), degree = 1)
+grid <- data.frame(k = seq(101, 301, 25))
 
-train_loess <- train(train_y ~ .,
-                     method = "gamLoess", 
-                     tuneGrid = grid, 
-                     data = train_x)
-ggplot(train_loess, highlight = TRUE)
+train_loess <- train(train_x, train_y, 
+                     method = "gamLoess") # exluding the `data` parameter doesn't produce errors
+train_loess
+y_hat <- predict(train_loess, test_x)
+y_hat
+confusionMatrix(data = y_hat, reference = test_y)$overall["Accuracy"]
 
-test_x
 
-confusionMatrix(data = predict(train_loess, test_y),
-                reference = test_y)$overall["Accuracy"]
+confusionMatrix(data = predict(train_loess, test_x),
+                reference = test_x)$overall["Accuracy"]
 
