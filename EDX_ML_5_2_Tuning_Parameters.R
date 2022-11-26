@@ -45,6 +45,8 @@ plot_cond_prob <- function(p_hat = NULL){
   
   grid <- expand.grid(span = seq(0.15, 0.65, len = 10), degree = 1)
   
+  mnist_27$train$y
+  
   train_loess <- train(y ~ .,
                        method = "gamLoess", 
                        tuneGrid = grid,

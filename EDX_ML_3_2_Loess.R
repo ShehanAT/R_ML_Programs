@@ -2,6 +2,7 @@ library(dslabs)
 library(tidyverse)
 library(caret)
 
+class(polls_2008$day)
 
 polls_2008 %>% ggplot(aes(day, margin)) +
   geom_point() +

@@ -5,6 +5,7 @@ library(caret)
 library(dslabs)
 library(dplyr)
 library(ISLR)
+library(gam)
 data(brca)
 
 set.seed(1, sample.kind="Rounding")
@@ -114,3 +115,24 @@ qda_yhat <- predict(qda_model, test_x)
 mean(lda_yhat == test_y)
 
 mean(qda_yhat == test_y)
+
+
+# Q13
+
+set.seed(5)
+
+train_y
+
+grid <- expand.grid(span = seq(0.15, 0.65, len = 10), degree = 1)
+
+train_loess <- train(train_y ~ .,
+                     method = "gamLoess", 
+                     tuneGrid = grid, 
+                     data = train_x)
+ggplot(train_loess, highlight = TRUE)
+
+test_x
+
+confusionMatrix(data = predict(train_loess, test_y),
+                reference = test_y)$overall["Accuracy"]
+

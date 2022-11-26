@@ -13,6 +13,9 @@ heights %>%
 
 range(p_hat)
 
+class(heights$sex)
+class(y)
+
 glm_fit <- train_set %>% 
   mutate(y = as.numeric(sex == "Female")) %>%
   glm(y ~ height, data=., family="binomial")
