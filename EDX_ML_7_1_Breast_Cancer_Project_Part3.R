@@ -139,3 +139,27 @@ confusionMatrix(data = y_hat, reference = test_y)$overall["Accuracy"]
 confusionMatrix(data = predict(train_loess, test_x),
                 reference = test_x)$overall["Accuracy"]
 
+
+# Q14
+
+set.seed(7)
+
+for(x in c(3, 5, 7, 9, 11, 13, 15, 17, 19, 21)){
+  knn_fit <- train(train_x, train_y, method = "knn", k = c(3, 5, 7, 9, 11, 13, 15, 17, 19, 21))
+  y_hat_knn <- predict(knn_fit, test_x, type="class")
+  
+}
+
+ctrl <- trainControl(method = "repeatedcv", repeats = 3)
+knn_fit <- train(train_x, train_y, method = "knn", trControl = ctrl, preProcess = c("center", "scale"), tuneLength = 20)
+knn_fit
+y_hat_knn <- predict(knn_fit, test_x)
+confusionMatrix(y_hat_knn, test_y)$overall["Accuracy"]
+
+
+
+
+
+
+
+
