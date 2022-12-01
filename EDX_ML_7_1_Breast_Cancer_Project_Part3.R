@@ -157,7 +157,15 @@ y_hat_knn <- predict(knn_fit, test_x)
 confusionMatrix(y_hat_knn, test_y)$overall["Accuracy"]
 
 
+# Q15a 
 
+set.seed(9)
+
+train_rf <- train(train_x, train_y, method = "rf", tuneGrid = data.frame(mtry = c(3, 5, 7, 9)), importance = TRUE)
+yhat_rf <- predict(train_rf, test_x)
+train_rf$
+varImp(train_rf) # Use the varImp() function to find the variable importance of each of the features in the train set
+confusionMatrix(yhat_rf, test_y)$overall["Accuracy"]
 
 
 
