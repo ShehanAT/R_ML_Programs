@@ -179,3 +179,20 @@ ensemble <- cbind(kmeans = predict_result == "B", glm = logistic_yhat == "B", ld
 ensemble_yhat <- ifelse(rowMeans(ensemble) > 0.5, "B", "M")
 
 mean(ensemble_yhat == test_y)
+
+# Q16b 
+names(ensemble)
+table(ensemble)
+
+models <- c("kmeans", "logistic regression", "LDA", "QDA", "Loess", "KNN", "RandomForest")
+
+model_accuracy <- c(mean(predict_result == test_y),
+            mean(logistic_yhat == test_y),
+            mean(lda_yhat == test_y),
+            mean(qda_yhat == test_y),
+            mean(loess_y_hat == test_y),
+            mean(y_hat_knn == test_y),
+            mean(yhat_rf == test_y))
+
+models_by_acc <- data.frame(model=models, accuracy=model_accuracy)
+models_by_acc
