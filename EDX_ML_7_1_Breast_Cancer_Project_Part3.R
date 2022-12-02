@@ -88,7 +88,7 @@ logistic_model <- train(
 logistic_model$results$Accuracy
 
 # To make predictions on the test set using the newly trained logistic regression model, use the following code:
-yhat <- predict(logistic_model, test_x)
+logistic_yhat <- predict(logistic_model, test_x)
 
 # To calculate the accuracy of the logistic regression model on the test set, use the following code:
 mean(yhat == test_y)
@@ -131,9 +131,9 @@ grid <- data.frame(k = seq(101, 301, 25))
 train_loess <- train(train_x, train_y, 
                      method = "gamLoess") # exluding the `data` parameter doesn't produce errors
 train_loess
-y_hat <- predict(train_loess, test_x)
-y_hat
-confusionMatrix(data = y_hat, reference = test_y)$overall["Accuracy"]
+loess_y_hat <- predict(train_loess, test_x)
+loess_y_hat
+confusionMatrix(data = loess_y_hat, reference = test_y)$overall["Accuracy"]
 
 
 confusionMatrix(data = predict(train_loess, test_x),
@@ -163,11 +163,19 @@ set.seed(9)
 
 train_rf <- train(train_x, train_y, method = "rf", tuneGrid = data.frame(mtry = c(3, 5, 7, 9)), importance = TRUE)
 yhat_rf <- predict(train_rf, test_x)
-train_rf$
+train_rf
 varImp(train_rf) # Use the varImp() function to find the variable importance of each of the features in the train set
 confusionMatrix(yhat_rf, test_y)$overall["Accuracy"]
 
+# Q16
 
+# Create an ensemble using the predictions from the 7 models created in the previous exercises: k-means, logistic regression,
+# LDA, QDA, loess, k-nearest neighbors, and random forest. Use the ensemble to generate a majority prediction of tumor type
+# (if most model suggest the tumor is malignant, predict malignant).
+# What is the accuracy of the ensemble prediction?
 
+ensemble <- cbind(kmeans = predict_result == "B", glm = logistic_yhat == "B", lda = lda_yhat == "B", qda = qda_yhat == "B", loess = loess_y_hat == "B", knn = y_hat_knn == "B", rf = yhat_rf == "B")
 
+ensemble_yhat <- ifelse(rowMeans(ensemble) > 0.5, "B", "M")
 
+mean(ensemble_yhat == test_y)

@@ -29,7 +29,7 @@ predictions <- sapply(fits, function(model){
                 })
 
 dim(predictions)
-
+dim(mnist_27$train$y)
 # Q3
 
 acc <- colMeans(predictions == mnist_27$train$y)
